@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "mcu_loger.h": "c",
+        "mcu_config.h": "c",
+        "mcu_events.h": "c",
+        "mcu_libs.h": "c",
+        "assert.h": "c",
+        "stdio.h": "c",
+        "tlsf.h": "c",
+        "stdint.h": "c",
+        "mcu_ring_buf.h": "c"
+    }
+}
