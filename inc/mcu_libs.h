@@ -12,10 +12,10 @@
 
 //数据结构库
 #include "mcu_ring_buf.h"
-
+#include "mcu_list.h"
 
 //状态机协程事件管理库
-//#include "mcu_event_manager.h"
+#include "mcu_events.h"
 
 
 //gpio软件模拟TTL硬件协议

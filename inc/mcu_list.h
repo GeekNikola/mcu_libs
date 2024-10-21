@@ -19,149 +19,154 @@ extern "C"
     MCU_OBJ_START(list)
     MCU_OBJ_TYPE(node) * head;
     MCU_OBJ_TYPE(node) * tail; // 尾结点
-    uint16_t len;
+    int16_t pos;
+    int16_t len;
     void *msg;
     MCU_OBJ_END(list)
 
 // 动态内存分配
 #define mcu_list_node_new (MCU_OBJ_TYPE(node) *)mcu_malloc(sizeof(MCU_OBJ_TYPE(node))) // 新建单链表结点，动态分配内存
-#define mcu_list_node_del (node) mcu_free(node);                                       // 删除链表结点
-#define mcu_list_is_empty(ml) (ml)->len == 0                                           // 判断链表是否为空
-#define mcu_list_forech(ml, index) \
-    for (index = ml->head, uint16_t cnt = 0; cnt < ml->len; index = index->next, cnt++)
+#define mcu_list_is_empty(_ml_) ((_ml_)->len == 0)                                       // 判断链表是否为空
+#define mcu_list_forech(_ml_, _index_) \
+    _ml_->pos = 0;                     \
+    for (MCU_OBJ_TYPE(node) *_index_ = _ml_->head; _ml_->pos < _ml_->len; _index_ = _index_->next, _ml_->pos++)
 
-#define mcu_list_new(ml, msg)                                          \
-    do                                                                 \
-    {                                                                  \
-        ml = (MCU_OBJ_TYPE(list) *)malloc(sizeof(MCU_OBJ_TYPE(list))); \
-        if (NULL != ml)                                                \
-        {                                                              \
-            ml->head = NULL;                                           \
-            ml->tail = NULL;                                           \
-            ml->len = 0;                                               \
-            ml->msg = msg;                                             \
-        }                                                              \
-    } while (0)
-
-#define mcu_list_get_node(ml, node, pos)                  \
-    do                                                    \
-    {                                                     \
-        if (NULL != ml && NULL != ml->head pos < ml->len) \
-        {                                                 \
-            if ((pos) == ml->len - 1)                     \
-            {                                             \
-                node = ml->tail;                          \
-            }                                             \
-            else                                          \
-            {                                             \
-                mcu_list_forech(ml, node_i)               \
-                {                                         \
-                    if (cnt == (pos))                     \
-                    {                                     \
-                        node = node_i;                    \
-                    }                                     \
-                }                                         \
-            }                                             \
-        }                                                 \
-    } while (0)
-
-#define mcu_list_insert(ml, type, data, size, pos)                           \
+#define mcu_list_new(_ml_, _msg_)                                            \
     do                                                                       \
     {                                                                        \
-        MCU_OBJ_TYPE(node) *node_prev = NULL;                                \
-        MCU_OBJ_TYPE(node) *new_node = (MCU_OBJ_TYPE(list) *)(malloc(size)); \
-        if (NULL != ml && NULL != new_node)                                  \
+        _ml_ = (MCU_OBJ_TYPE(list) *)mcu_malloc(sizeof(MCU_OBJ_TYPE(list))); \
+        if (NULL != _ml_)                                                    \
         {                                                                    \
-            new_node->data = data;                                           \
-            new_node->data_size = data_size;                                 \
-            new_node->next = NULL;                                           \
-            if (mcu_list_is_empty(ml))                                       \
-            {                                                                \
-                ml->head = new_node;                                         \
-                ml->tail = new_node;                                         \
-                new_node->next = ml->head;                                   \
-            }                                                                \
-            else                                                             \
-            {                                                                \
-                if (NULL != ml->head)                                        \
-                {                                                            \
-                    if (pos == 0 && ml->head != new_node)                    \
-                    {                                                        \
-                        new_node->next = ml->head;                           \
-                        ml->head = new_node;                                 \
-                        ml->tail->next = ml->head;                           \
-                        ml->len++;                                           \
-                    }                                                        \
-                    else                                                     \
-                    {                                                        \
-                        node_prev = mcu_list_get_node(ml, pos - 1);          \
-                        if (node_prev && (node_prev != new_node))            \
-                        {                                                    \
-                            new_node->next = node_prev->next;                \
-                            node_prev->next = new_node;                      \
-                            if (pos == ml->len)                              \
-                            {                                                \
-                                ml->tail = new_node;                         \
-                            }                                                \
-                            ml->len++;                                       \
-                        }                                                    \
-                    }                                                        \
-                }                                                            \
-            }                                                                \
+            _ml_->head = NULL;                                               \
+            _ml_->tail = NULL;                                               \
+            _ml_->len = 0;                                                   \
+            _ml_->msg = _msg_;                                               \
+            break;                                                           \
         }                                                                    \
+        log_e_rtc_line("list new fail");                                     \
     } while (0)
 
-#define mcu_list_push_front(ml, type, data, size) mcu_list_insert(ml, type, data, size, 0)
-#define mcu_list_push_back(ml, type, data, size) mcu_list_insert(ml, type, data, size, ml->len)
-
-#define mcu_list_erase(ml, pos)                                         \
-    do                                                                  \
-    {                                                                   \
-        sll_node_t *node_prev = NULL;                                   \
-        sll_node_t *del_node = NULL;                                    \
-        if (NULL != ml && (!mcu_list_is_empty(ml)) && NULL != ml->head) \
-        {                                                               \
-            if (pos == 0)                                               \
-            {                                                           \
-                del_node = ml->head;                                    \
-                ml->head = del_node->next;                              \
-                ml->tail->next = ml->head;                              \
-                mcu_list_node_del(del_node);                            \
-                ml->len--;                                              \
-            }                                                           \
-            else                                                        \
-            {                                                           \
-                node_prev = mcu_list_get_node(sll, pos - 1);            \
-                if (node_prev)                                          \
-                {                                                       \
-                    del_node = node_prev->next;                         \
-                    node_prev->next = del_node->next;                   \
-                    mcu_list_node_del(del_node);                        \
-                    if (pos == sll->len - 1)                            \
-                    {                                                   \
-                        sll->tail = node_prev;                          \
-                    }                                                   \
-                    sll->len--;                                         \
-                }                                                       \
-            }                                                           \
-        }                                                               \
+#define mcu_list_get_node(_ml_, _node_, _pos_)                     \
+    do                                                             \
+    {                                                              \
+        if (NULL != _ml_ && NULL != _ml_->head && _pos_ < _ml_->len) \
+        {                                                          \
+            if ((_pos_) == _ml_->len - 1)                          \
+            {                                                      \
+                _node_ = _ml_->tail;                               \
+            }                                                      \
+            else                                                   \
+            {                                                      \
+                mcu_list_forech(_ml_, node_i)                      \
+                {                                                  \
+                    if (_ml_->pos == (_pos_))                        \
+                    {                                              \
+                        _node_ = node_i;                           \
+                    }                                              \
+                }                                                  \
+            }                                                      \
+        }                                                          \
     } while (0)
 
-#define mcu_list_erase_range(ml, sta, end)     \
-    do                                         \
-    {                                          \
-        uint32_t cnt = 0;                      \
-        for (cnt = 0; cnt <= end - sta; cnt++) \
-            mcu_list_erase(sll, sta);          \
+#define mcu_list_insert(_ml_, _data_addr_, _size_, _pos_)                  \
+    do                                                                             \
+    {                                                                              \
+        MCU_OBJ_TYPE(node) *node_prev = NULL;                                      \
+        MCU_OBJ_TYPE(node) *new_node = (MCU_OBJ_TYPE(node) *)(mcu_malloc(_size_)); \
+        if (NULL != _ml_ && NULL != new_node)                                      \
+        {                                                                          \
+            new_node->data = _data_addr_;                                          \
+            new_node->next = NULL;                                                 \
+            if (mcu_list_is_empty(_ml_))                                           \
+            {                                                                      \
+                _ml_->head = new_node;                                             \
+                _ml_->tail = new_node;                                             \
+                new_node->next = _ml_->head;                                       \
+                _ml_->len++;                                                       \
+            }                                                                      \
+            else                                                                   \
+            {                                                                      \
+                if (NULL != _ml_->head)                                            \
+                {                                                                  \
+                    if (_pos_ == 0 && _ml_->head != new_node)                      \
+                    {                                                              \
+                        new_node->next = _ml_->head;                               \
+                        _ml_->head = new_node;                                     \
+                        _ml_->tail->next = _ml_->head;                             \
+                        _ml_->len++;                                               \
+                    }                                                              \
+                    else                                                           \
+                    {                                                              \
+                        mcu_list_get_node(_ml_, node_prev, _pos_ - 1);        \
+                        if (node_prev && (node_prev != new_node))                  \
+                        {                                                          \
+                            new_node->next = node_prev->next;                      \
+                            node_prev->next = new_node;                            \
+                            if (_pos_ == _ml_->len)                           \
+                            {                                                      \
+                                _ml_->tail = new_node;                             \
+                            }                                                      \
+                            _ml_->len++;                                           \
+                        }                                                          \
+                    }                                                              \
+                }                                                                  \
+            }                                                                      \
+        }                                                                          \
     } while (0)
 
-#define mcu_list_pop_front(ml) mcu_list_erase(ml, 0)
-#define mcu_list_pop_back(ml) mcu_list_erase(ml, ml->len - 1)
+#define mcu_list_push_front(_ml_,  _data_addr_, _size_) mcu_list_insert(_ml_, _data_addr_, _size_, 0)
+#define mcu_list_push_back(_ml_,  _data_addr_, _size_) mcu_list_insert(_ml_, _data_addr_, _size_, _ml_->len)
 
-#define mcu_list_clear(ml)     \
-    while (!is_sll_empty(ml))  \
-    {                          \
-        mcu_list_erase(ml, 0); \
+#define mcu_list_erase(_ml_, _pos_)                                           \
+    do                                                                        \
+    {                                                                         \
+        MCU_OBJ_TYPE(node) *node_prev = NULL;                                 \
+        MCU_OBJ_TYPE(node) *del_node = NULL;                                  \
+        if (NULL != _ml_ && (!mcu_list_is_empty(_ml_)) && NULL != _ml_->head) \
+        {                                                                     \
+            if (_pos_ == 0)                                                   \
+            {                                                                 \
+                del_node = _ml_->head;                                        \
+                _ml_->head = del_node->next;                                  \
+                _ml_->tail->next = _ml_->head;                                \
+                mcu_free(del_node->data);                                     \
+                mcu_free(del_node);                                           \
+                _ml_->len--;                                                  \
+            }                                                                 \
+            else                                                              \
+            {                                                                 \
+                mcu_list_get_node(_ml_, node_prev, _pos_ - 1);                \
+                if (node_prev)                                                \
+                {                                                             \
+                    del_node = node_prev->next;                               \
+                    node_prev->next = del_node->next;                         \
+                    mcu_free(del_node->data);                                     \
+                    mcu_free(del_node);                                       \
+                    if (_pos_ == _ml_->len - 1)                                 \
+                    {                                                         \
+                        _ml_->tail = node_prev;                               \
+                    }                                                         \
+                    _ml_->len--;                                              \
+                }                                                             \
+            }                                                                 \
+        }                                                                     \
+    } while (0)
+
+#define mcu_list_erase_range(_ml_, _sta_, _end_)   \
+    do                                             \
+    {                                              \
+        uint32_t cnt = 0;                          \
+        for (cnt = 0; cnt <= _end_ - _sta_; cnt++) \
+            mcu_list_erase(_ml_, _sta_);             \
+    } while (0)
+
+#define mcu_list_pop_front(_ml_) mcu_list_erase(_ml_, 0)
+#define mcu_list_pop_back(_ml_) mcu_list_erase(_ml_, _ml_->len - 1)
+
+#define mcu_list_clear(_ml_)         \
+    while (!mcu_list_is_empty(_ml_)) \
+    {                                \
+        mcu_list_erase(_ml_, 0);     \
     }
 
 #ifdef __cplusplus

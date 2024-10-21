@@ -1,0 +1,14 @@
+.\obj\mcu_events.o: ..\..\..\src\utilities\mcu_events.c
+.\obj\mcu_events.o: ..\..\..\inc\mcu_events.h
+.\obj\mcu_events.o: ..\..\..\inc\mcu_config.h
+.\obj\mcu_events.o: D:\software\Keil\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\obj\mcu_events.o: D:\software\Keil\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\obj\mcu_events.o: D:\software\Keil\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\obj\mcu_events.o: D:\software\Keil\Keil_v5\ARM\ARMCC\Bin\..\include\assert.h
+.\obj\mcu_events.o: ..\..\..\inc\tlsf.h
+.\obj\mcu_events.o: D:\software\Keil\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\obj\mcu_events.o: ..\..\..\inc\mcu_libs.h
+.\obj\mcu_events.o: ..\..\..\inc\mcu_ring_buf.h
+.\obj\mcu_events.o: ..\..\..\inc\mcu_loger.h
+.\obj\mcu_events.o: ..\..\..\inc\mcu_list.h
+.\obj\mcu_events.o: ..\..\..\inc\mcu_events.h

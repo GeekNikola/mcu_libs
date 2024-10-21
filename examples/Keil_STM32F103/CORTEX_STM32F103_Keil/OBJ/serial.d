@@ -1,0 +1,15 @@
+.\obj\serial.o: serial\serial.c
+.\obj\serial.o: D:\software\Keil\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\obj\serial.o: D:\software\Keil\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\obj\serial.o: .\STM32F10xFWLib\inc\stm32f10x_lib.h
+.\obj\serial.o: .\STM32F10xFWLib\inc\stm32f10x_map.h
+.\obj\serial.o: ..\CORTEX_STM32F103_Keil\stm32f10x_conf.h
+.\obj\serial.o: .\STM32F10xFWLib\inc\stm32f10x_type.h
+.\obj\serial.o: .\STM32F10xFWLib\inc\cortexm3_macro.h
+.\obj\serial.o: .\STM32F10xFWLib\inc\stm32f10x_exti.h
+.\obj\serial.o: .\STM32F10xFWLib\inc\stm32f10x_gpio.h
+.\obj\serial.o: .\STM32F10xFWLib\inc\stm32f10x_nvic.h
+.\obj\serial.o: .\STM32F10xFWLib\inc\stm32f10x_rcc.h
+.\obj\serial.o: .\STM32F10xFWLib\inc\stm32f10x_spi.h
+.\obj\serial.o: .\STM32F10xFWLib\inc\stm32f10x_systick.h
+.\obj\serial.o: .\STM32F10xFWLib\inc\stm32f10x_usart.h

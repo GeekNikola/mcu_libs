@@ -29,6 +29,11 @@ extern tlsf_t  mcu_memory;
 #endif // INCLUDED_tlsf
 
 
+#define mcu_lock __disable_irq();  /* 禁止全局中断*/
+#define mcu_unlock __enable_irq();    /*  使能全局中断 */
+
+// __set_PRIMASK(1)  /* 禁止全局中断*/
+// __set_PRIMASK(0)  /*  使能全局中断 */
 
 
 
@@ -38,7 +43,7 @@ extern tlsf_t  mcu_memory;
 #define MCU_OBJ_START(name) typedef struct obj_##name {
 #define MCU_OBJ_END(name) }obj_##name##_t;
 #define MCU_OBJ_TYPE(name) obj_##name##_t
-
+#define MCU_OBJ_PREV(name) typedef struct obj_##name obj_##name##_t
 
 /**
  * @brief 如何使用？宏参数name 是结构体对象名称 obj_name_t，把结构体成员放入中间,MCU_OBJ_START的后面,MCU_OBJ_END的前面

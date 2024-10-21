@@ -1,0 +1,11 @@
+.\obj\mcu_loger.o: ..\..\..\src\utilities\mcu_loger.c
+.\obj\mcu_loger.o: ..\..\..\inc\mcu_loger.h
+.\obj\mcu_loger.o: ..\..\..\inc\mcu_config.h
+.\obj\mcu_loger.o: D:\software\Keil\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\obj\mcu_loger.o: D:\software\Keil\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\obj\mcu_loger.o: D:\software\Keil\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\obj\mcu_loger.o: D:\software\Keil\Keil_v5\ARM\ARMCC\Bin\..\include\assert.h
+.\obj\mcu_loger.o: ..\..\..\inc\tlsf.h
+.\obj\mcu_loger.o: D:\software\Keil\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\obj\mcu_loger.o: D:\software\Keil\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\obj\mcu_loger.o: D:\software\Keil\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h

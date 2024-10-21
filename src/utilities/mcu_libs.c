@@ -18,7 +18,9 @@ void mcu_lib_init(void)
 {
 
 mcu_memory_init();
-
+mcu_event_manager_init(mcu_em);
+	
+	
 }
 
 

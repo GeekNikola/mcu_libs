@@ -8,6 +8,12 @@
         "stdio.h": "c",
         "tlsf.h": "c",
         "stdint.h": "c",
-        "mcu_ring_buf.h": "c"
+        "mcu_ring_buf.h": "c",
+        "stdlib.h": "c",
+        "string": "c",
+        "initializer_list": "c",
+        "type_traits": "c",
+        "xstring": "c",
+        "xutility": "c"
     }
 }

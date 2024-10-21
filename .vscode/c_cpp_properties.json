@@ -3,17 +3,12 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/inc",
+                "D:/software/Keil/Keil_v5/ARM/ARMCC/include/"
             ],
             "defines": [
-                "_DEBUG",
-                "UNICODE",
-                "_UNICODE"
-            ],
-            "windowsSdkVersion": "10.0.19041.0",
-            "compilerPath": "cl.exe",
-            "cStandard": "c17",
-            "cppStandard": "c++17"
+                "__CC_ARM"
+            ]
         }
     ],
     "version": 4

@@ -1,0 +1,5 @@
+File_name,ram_percent,ram,flash,Code,RO_data,RW_data,ZI_data
+mcu_libs.o,93.689987%,8196,190,100,86,4,8192
+stm32f10x.o,5.852767%,512,264,28,236,0,512
+mcu_events.o,0.365798%,32,1720,1712,0,8,24
+serial.o,0.091449%,8,272,264,0,8,0
